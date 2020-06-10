@@ -1,0 +1,16 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "33006:3306"
+    volumes:
+    - mtsql_db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+
+volumes:
+  mtsql_db:
