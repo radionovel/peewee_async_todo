@@ -2,7 +2,7 @@ import asyncio
 
 import peewee_async
 
-from database import Items, database
+from database import TodoItem, database
 from config import config
 
 
@@ -21,11 +21,12 @@ class ObjectTestClass:
     @classmethod
     def setup_class(cls):
         cls.init_database()
-        database.create_tables(models=[Items])
+        database.create_tables(models=[TodoItem])
 
     @classmethod
     def teardown_class(cls):
-        database.drop_tables(models=[Items])
+        pass
+        database.drop_tables(models=[TodoItem])
 
     def setup_method(self, method):
         self.init_database()

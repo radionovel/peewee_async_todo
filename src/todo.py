@@ -18,7 +18,7 @@ class TodoRepository:
         items = await objects.execute(query)
         return [model_to_dict(todo, recurse=False) for todo in items]
 
-    async def get(self, id):
+    async def get(self, id: int):
         query = (TodoItem.select().where(TodoItem.id == id))
         todo = await objects.get(query)
         return model_to_dict(todo, recurse=False)
@@ -27,3 +27,7 @@ class TodoRepository:
         for (k, v) in self.filter.items():
             query = query.where(v)
         return query
+
+    async def add(self, data: dict):
+        todo = await objects.create(TodoItem, **data)
+        return model_to_dict(todo, recurse=False)
