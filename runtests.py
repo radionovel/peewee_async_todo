@@ -7,7 +7,8 @@ import pytest
 sys.path.append('./test')
 sys.path.append('./src')
 
-pytest.main(['--tb=short', '--color=yes', '-q', '--disable-warnings'])
+result = pytest.main(['--tb=short', '--color=yes', '-q', '--disable-warnings'])
+sys.exit(result)
 """
   --durations=N         show N slowest setup/test durations (N=0 for all).
   -v, --verbose         increase verbosity.
