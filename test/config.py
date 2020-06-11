@@ -1,5 +1,5 @@
 config = {
-    'host': 'localhost',
+    'host': 'mysql',
     'port': 33006,
     'database': 'app_test',
     'user': 'root',
