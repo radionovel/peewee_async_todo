@@ -7,6 +7,12 @@ image: python:latest
 # only cache local items.
 variables:
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
+  MYSQL_DATABASE: "app_test"
+  MYSQL_ROOT_PASSWORD: "secret"
+
+services:
+  - mysql:latest
 
 # Pip's cache doesn't store the python packages
 # https://pip.pypa.io/en/stable/reference/pip_install/#caching
@@ -23,7 +29,9 @@ before_script:
   - pip install virtualenv
   - virtualenv venv
   - source venv/bin/activate
+  - pip install -r requirements.txt
+  - mysql -e 'create database app_test;'
 
 test:
   script:
-    - python runtest.py
+    - python runtests.py
