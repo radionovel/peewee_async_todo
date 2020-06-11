@@ -30,7 +30,6 @@ before_script:
   - virtualenv venv
   - source venv/bin/activate
   - pip install -r requirements.txt
-  - mysql -e 'create database app_test;'
 
 test:
   script:
