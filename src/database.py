@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import peewee
 import peewee_async
 
@@ -9,28 +11,18 @@ config = {
     'password': 'secret'
 }
 
-#
-# class PeeweeWrapper:
-#
-#     db = None
-#
-#     def __init__(self):
-#         self.db = peewee_async.PooledMySQLDatabase(**config)
-#
-#     def __getattr__(self, item):
-#         manager = peewee_async.Manager(database=self.db)
-#         return getattr(manager, item)
-
-database_proxy = peewee.DatabaseProxy()
-# ebjects = PeeweeWrapper()
 database = peewee_async.PooledMySQLDatabase(**config)
+# database_proxy = peewee.DatabaseProxy()
 # database_proxy.initialize(database)
 objects = peewee_async.Manager(database=database)
 
 
-class Items(peewee.Model):
-    name = peewee.CharField()
+class TodoItem(peewee.Model):
+
+    title = peewee.CharField(null=False)
+    is_completed = peewee.BooleanField(default=False, null=False)
+    created_at = peewee.DateTimeField(default=datetime.now, null=False)
+    completed_at = peewee.DateTimeField(default=None)
 
     class Meta:
         database = database
-        # database = ebjects.db
