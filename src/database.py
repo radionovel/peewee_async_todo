@@ -17,12 +17,27 @@ database = peewee_async.PooledMySQLDatabase(**config)
 objects = peewee_async.Manager(database=database)
 
 
-class TodoItem(peewee.Model):
+class BaseModel(peewee.Model):
+    class Meta:
+        database = database
 
-    title = peewee.CharField(null=False)
-    is_completed = peewee.BooleanField(default=False, null=False)
-    created_at = peewee.DateTimeField(default=datetime.now, null=False)
-    completed_at = peewee.DateTimeField(default=None)
+
+class Tags(BaseModel):
+    name = peewee.CharField(max_length=50)
 
     class Meta:
         database = database
+
+
+class TodoItem(BaseModel):
+    title = peewee.CharField(null=False)
+    description = peewee.TextField()
+    is_completed = peewee.BooleanField(default=False, null=False)
+    created_at = peewee.DateTimeField(default=datetime.now, null=False)
+    completed_at = peewee.DateTimeField(default=None)
+    overdue_at = peewee.DateTimeField(default=None)
+
+
+class TodoTags(BaseModel):
+    todo = peewee.ForeignKeyField(TodoItem, backref='tags')
+    tag = peewee.ForeignKeyField(Tags, backref='todos')
